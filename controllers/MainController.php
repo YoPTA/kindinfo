@@ -1,31 +1,10 @@
 <?php
 
-class SiteController
+class MainController
 {
     public function actionIndex()
     {
-        /*$doc = new DOMDocument('1.0', 'UTF-8');
 
-        $doc->formatOutput = true;
-        $root = $doc->createElement('Envelope');
-        $root = $doc->appendChild($root);
-
-        $head = $doc->createElement('head');
-        $head = $root->appendChild($head);
-
-        $text = $doc->createTextNode('Это Бошка');
-        $text = $head->appendChild($text);
-
-        $body = $doc->createElement('Body');
-        $body = $root->appendChild($body);
-
-        $text = $doc->createTextNode('Это Тело');
-        $text = $body->appendChild($text);
-
-        $path="simple.xml";
-        echo $doc->save($path);*/
-        /*$users = User::getDOKAUsers();
-        print_r($users);*/
 
         require_once KINDINFO_ROOT . '/views/site/index.php';
         return true;
