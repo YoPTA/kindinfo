@@ -82,7 +82,7 @@ class User
             $_SESSION = array();
             session_destroy ();
             // Перенаправляем пользователя на главную страницу
-            header("Location: /site/login");
+            header("Location: /main/login");
         }
     }
 
@@ -98,7 +98,7 @@ class User
             return $_SESSION['user'];
         }
 
-        header('Location: /site/login');
+        header('Location: /main/login');
     }
 
     /*

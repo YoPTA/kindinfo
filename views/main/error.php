@@ -14,7 +14,7 @@
     ?>
     <h4>Ой-ой-ой страница не найдена</h4>
     <h5>Error 404</h5>
-    <a href="/site/index">Вернуться на главную</a>
+    <a href="<?= PREFIX_DOCUMENT_ROOT ?>/main/index">Вернуться на главную</a>
 </div>
 </body>
 </html>
