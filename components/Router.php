@@ -1,10 +1,12 @@
 <?php
 
+namespace components;
+
 /**
  * Класс App
  * Компонент для работы с маршрутами
  */
-class App
+class Router
 {
 
     /**
@@ -21,6 +23,8 @@ class App
         // Путь к файлу с роутами
         $routesPath = KINDINFO_ROOT . '/config/routes.php';
 
+
+
         // Получаем роуты из файла
         $this->routes = include($routesPath);
     }
@@ -35,7 +39,7 @@ class App
         }
     }
 
-    /**
+    /*
      * Метод для обработки запроса
      */
     public function run()
@@ -43,18 +47,26 @@ class App
         // Получаем строку запроса
         $uri = $this->getURI();
 
+        require_once KINDINFO_ROOT . '/components/PrefixDocumentRoot.php';
+        $pdr = new \PrefixDocumentRoot();
+
         // Проверяем наличие такого запроса в массиве маршрутов (routes.php)
         foreach ($this->routes as $uriPattern => $path) {
 
             // Сравниваем $uriPattern и $uri
             if (preg_match("~$uriPattern~", $uri)) {
 
+                $str_to_replace = $pdr->getPDRFromat(PREFIX_DOCUMENT_ROOT, 1);
+                $str_to_controlle_file = $pdr->getPDRFromat(PREFIX_DOCUMENT_ROOT, 2);;
+
                 // Получаем внутренний путь из внешнего согласно правилу.
                 $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+                $internalRoute = str_replace($str_to_replace, '', $internalRoute);
                 // Определить контроллер, action, параметры
                 $segments = explode('/', $internalRoute);
 
                 $controllerName = array_shift($segments) . 'Controller';
+
                 $controllerName = ucfirst($controllerName);
 
                 $segments = explode('?', $segments[0]);
@@ -64,7 +76,7 @@ class App
                 $parameters = $segments;
 
                 //Подключаем файл класса-контроллера
-                $controllerFile = $_SERVER['DOCUMENT_ROOT'] . '/controllers/'
+                $controllerFile = $_SERVER['DOCUMENT_ROOT'] . $str_to_controlle_file.'/controllers/'
                     .$controllerName.'.php';
                 if (file_exists($controllerFile)) {
                     include_once($controllerFile);
@@ -73,7 +85,7 @@ class App
 
                     if(!is_callable([$controllerObject, $actionName]))
                     {
-                        call_user_func(['SiteController', 'actionError']);
+                        call_user_func(['MainController', 'actionError']);
                         break;
                     }
                     $result = call_user_func([$controllerObject, $actionName]);
