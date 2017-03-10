@@ -1,7 +1,5 @@
 <?php
 
-namespace components;
-
 /**
  * Класс App
  * Компонент для работы с маршрутами
